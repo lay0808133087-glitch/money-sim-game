@@ -1,0 +1,397 @@
+/* =========================================
+   [NEW STYLE] Teen Money Sim: Cute Game Edition
+   ========================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "LINE Seed Sans TH", "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+  background-color: #FDF4EB; 
+  background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAIklEQVQIW2NkQAKrVq36z8gAFWNgYGDCFkNWRBfAyEAFABwQCfHLGAn3AAAAAElFTkSuQmCC');
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px 20px;
+  color: #5A4A3A; 
+}
+
+h1 {
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+  margin-bottom: 25px;
+  color: #E88F6F; 
+  text-transform: uppercase;
+  font-weight: 800;
+  text-shadow: 1px 1px 0px #FFF; 
+}
+
+.game-container {
+  width: 100%;
+  max-width: 650px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: gameEntrance 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.slots, .winner-box, .panel, .analysis-box {
+  background: #FFFFFF;
+  border-radius: 16px; 
+  box-shadow: 0 5px 0px rgba(90, 74, 58, 0.1); 
+  border: 2px solid #EBE0D5;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+.slots {
+  display: flex;
+  gap: 15px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.slot {
+  flex: 1;
+  min-width: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 25px 15px;
+  text-align: center;
+}
+
+.slot.interactive {
+  cursor: pointer;
+  background-color: #FFF;
+}
+
+.slot.interactive:hover {
+  transform: translateY(-5px) scale(1.02);
+  box-shadow: 0 8px 0px rgba(90, 74, 58, 0.1);
+  border-color: #E88F6F; 
+  background-color: #FAF0E6;
+}
+
+.slot-inner {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #5A4A3A;
+  line-height: 1.4;
+}
+
+.winner-box {
+  padding: 25px;
+  text-align: center;
+  margin-bottom: 20px;
+  background-color: #FAF0E6; 
+  border-color: #EBE0D5;
+}
+
+.winner-name {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #E88F6F;
+  text-shadow: 1px 1px 0px #FFF;
+}
+
+.winner-number {
+  font-size: 0.95rem;
+  color: #A39382;
+  margin-top: 8px;
+}
+
+.timer-box {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  margin-bottom: 20px;
+  background: #E06C6C; 
+  padding: 12px 25px;
+  border-radius: 30px;
+  box-shadow: 0 4px 0px rgba(180, 70, 70, 0.3);
+  border: 2px solid #FFF;
+}
+
+.progress-container {
+  width: 100%;
+  background: #EBE0D5;
+  height: 12px;
+  border-radius: 6px;
+  margin-bottom: 25px;
+  overflow: hidden;
+  border: 1px solid #D9CDC0;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #84C5A1; 
+  width: 0%;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.panels {
+  display: flex;
+  gap: 15px;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.panel {
+  flex: 1;
+  padding: 18px 10px;
+  text-align: center;
+}
+
+.panel h2 {
+  font-size: 1rem;
+  color: #A39382;
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.panel-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* สีเงินแต่ละกระปุก */
+#spend-display, #final-money { color: #5B9BD5; }
+#emergency-display { color: #E06C6C; }
+#saving-display { color: #7BC57B; }
+
+/* เฉพาะหน้าสรุปผล */
+.result-panels {
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+    gap: 15px;
+}
+.result-panel {
+    min-width: 45%;
+    margin-bottom: 0px;
+}
+
+.btn-spin {
+  background: #84C5A1; 
+  color: #fff;
+  border: none;
+  padding: 18px 35px;
+  font-size: 1.15rem;
+  border-radius: 35px; 
+  cursor: pointer;
+  font-family: inherit;
+  font-weight: 800;
+  box-shadow: 0 5px 0px rgba(100, 160, 130, 0.4); 
+  transition: all 0.1s ease;
+  width: 100%;
+}
+
+.btn-spin:hover {
+  background: #73B490;
+}
+
+.btn-spin:active {
+  transform: translateY(3px); 
+  box-shadow: 0 2px 0px rgba(100, 160, 130, 0.4);
+}
+
+.btn-reset {
+  background: transparent;
+  border: none;
+  color: #A39382;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.btn-reset:hover { color: #5A4A3A; text-decoration: underline; }
+
+#capture {
+    padding: 25px;
+    background: #FAF0E6; 
+    border-radius: 16px;
+    width: 100%;
+    border: 2px solid #EBE0D5;
+}
+
+.analysis-box {
+    padding: 30px;
+    line-height: 1.8;
+}
+
+.rec-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.rec-tag {
+    background: #FFFFFF;
+    color: #E88F6F;
+    padding: 10px 20px;
+    border-radius: 25px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    border: 2px solid #EBE0D5;
+    cursor: pointer;
+    box-shadow: 0 3px 0px rgba(90, 74, 58, 0.05);
+    transition: all 0.2s ease;
+}
+
+.rec-tag:hover {
+    transform: scale(1.05);
+    background: #FAF0E6;
+    border-color: #E88F6F;
+}
+
+.btn-back {
+    background: #FFFFFF;
+    border: 1px solid #EBE0D5;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    color: #5A4A3A;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 3px 0px rgba(90, 74, 58, 0.05);
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+}
+
+.btn-back svg {
+    width: 22px;
+    height: 22px;
+    transition: stroke 0.2s ease;
+}
+
+.btn-back:hover {
+    background: #E88F6F; 
+    border-color: #E88F6F;
+    transform: translateX(-4px) scale(1.05);
+    box-shadow: 0 5px 0px rgba(90, 74, 58, 0.1);
+}
+
+.btn-back:hover svg {
+    stroke: #FFFFFF; 
+}
+
+@keyframes gameEntrance {
+  0% { opacity: 0; transform: translateY(20px) scale(0.9); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes textFadeIn {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* =========================================
+   [MOBILE & iPAD OPTIMIZATION] - ระบบรองรับมือถือ
+   ========================================= */
+@media screen and (max-width: 768px) {
+    body {
+        padding: 15px 15px; /* ลดขอบจอลง ให้มีพื้นที่ใช้งานเยอะขึ้น */
+    }
+    
+    h1 {
+        font-size: 1.3rem; /* พาดหัวเล็กลงนิดหน่อย */
+        margin-bottom: 15px;
+    }
+
+    /* กล่องตัวเลือก (Choices) */
+    .slots {
+        gap: 12px;
+        flex-direction: column; /* บังคับให้ปุ่มเรียงเป็นแนวตั้ง แถวละ 1 อัน */
+    }
+    
+    .slot {
+        width: 100%; 
+        min-width: 100%;
+        padding: 18px 15px; /* ลดความอ้วนของปุ่มลงนิดหน่อย */
+    }
+
+    /* กระเป๋าเงิน 3 ช่อง */
+    .panels {
+        gap: 8px; /* ลดระยะห่างระหว่างกระเป๋าเงิน */
+    }
+    
+    .panel {
+        padding: 12px 5px; /* ลดขอบในกระเป๋า */
+    }
+    
+    .panel h2 {
+        font-size: 0.75rem; /* ตัวหนังสือชื่อกระเป๋าเล็กลง */
+        letter-spacing: 0;
+    }
+    
+    .panel-value {
+        font-size: 1.1rem; /* ตัวเลขเงินเล็กลงจะได้ไม่ล้นจอ */
+    }
+
+    /* หน้าสรุปผลตอนจบ (เรียงแนวตั้งแทนแนวขวาง) */
+    .result-panels {
+        flex-direction: column; 
+    }
+    
+    .result-panel {
+        min-width: 100%;
+        width: 100%;
+    }
+
+    /* ปรับขนาดอักษรทั่วไปให้เหมาะกับมือถือ */
+    .winner-box {
+        padding: 20px 15px;
+    }
+    
+    .winner-name {
+        font-size: 1.15rem;
+    }
+    
+    .btn-spin {
+        padding: 15px 20px;
+        font-size: 1.1rem;
+    }
+    
+    .analysis-box {
+        padding: 20px 15px;
+        font-size: 1rem;
+    }
+    
+    #advice-text {
+        font-size: 1.05rem !important;
+    }
+}
+/* =========================================
+   ปุ่มสลับภาษา (Language Toggle)
+   ========================================= */
+.lang-toggle-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #FFFFFF;
+    color: #1A73E8;
+    border: 2px solid #D2E3FC;
+    padding: 10px 18px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    z-index: 9999;
+}
+.lang-toggle-btn:hover { background: #E8F0FE; transform: translateY(-2px); }
